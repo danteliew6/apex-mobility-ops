@@ -48,7 +48,7 @@ resources:
               - --bb-schema={{job.parameters.schema}}
 
         - task_key: gen_bronze
-          depends_on: [{ task_key: gen_dims }]
+          depends_on: [{ task_key: gen_facts }]
           environment_key: default
           spark_python_task:
             python_file: ../bootstrap/run.py
@@ -58,7 +58,7 @@ resources:
               - --bb-schema={{job.parameters.schema}}
 
         - task_key: gen_facts
-          depends_on: [{ task_key: gen_bronze }]
+          depends_on: [{ task_key: gen_dims }]
           environment_key: default
           spark_python_task:
             python_file: ../bootstrap/run.py
@@ -68,7 +68,7 @@ resources:
               - --bb-schema={{job.parameters.schema}}
 
         - task_key: add_comments
-          depends_on: [{ task_key: gen_facts }]
+          depends_on: [{ task_key: gen_bronze }]
           environment_key: default
           spark_python_task:
             python_file: ../bootstrap/run.py
