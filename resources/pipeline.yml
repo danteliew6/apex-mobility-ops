@@ -10,4 +10,4 @@ resources:
       continuous: false
       libraries:
         - glob:
-            include: ../governance/pipeline/*.sql
+            include: ../governance/pipeline/**
