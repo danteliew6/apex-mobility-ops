@@ -81,7 +81,7 @@ resources:
           depends_on: [{ task_key: add_comments }]
           pipeline_task:
             pipeline_id: ${resources.pipelines.apex_dq_pipeline.id}
-            full_refresh: false
+            full_refresh: true
 
         - task_key: apply_governance
           depends_on: [{ task_key: run_dq_pipeline }]
