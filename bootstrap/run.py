@@ -19,7 +19,8 @@ import os
 import runpy
 import sys
 
-_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_HERE = globals().get("__file__") or sys.argv[0]  # __file__ is undefined under some serverless launchers
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(_HERE)))
 
 # stage name -> repo-relative script path
 STAGES = {
@@ -66,6 +67,10 @@ def main(argv):
           f"schema={os.environ.get('APEX_SCHEMA', '(default)')}")
     # Run the stage script as __main__ with its own argv (stage name stripped).
     sys.argv = [script] + passthrough[1:]
+    # run_path() does not put the script's dir on sys.path (a launcher would); stage scripts import siblings.
+    for d in (os.path.dirname(script), _REPO_ROOT):
+        if d not in sys.path:
+            sys.path.insert(0, d)
     runpy.run_path(script, run_name="__main__")
 
 
