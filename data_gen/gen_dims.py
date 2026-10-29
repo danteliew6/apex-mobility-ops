@@ -163,6 +163,8 @@ allow_rows = [
     ("bali.ops@apex.example", "Denpasar", False),
     ("analyst.national@apex.example", "ALL", False),
 ]
+# the identity running the bootstrap must be an admin, or the governed tables look empty to it
+allow_rows.append((spark.sql("SELECT current_user()").first()[0], "ALL", True))
 allow_df = spark.createDataFrame(allow_rows, ["email", "allowed_city", "is_admin"])
 allow_df.write.mode("overwrite").option("overwriteSchema", "true").saveAsTable(fq("driver_access_allowlist"))
 print(f"driver_access_allowlist: {allow_df.count()} rows")
