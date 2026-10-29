@@ -24,10 +24,10 @@ _SQL_FILE = os.path.join(_REPO_ROOT, "lakebase", "build_serving_gold.sql")
 
 def statements(sql: str):
     """Split a multi-statement SQL file on ';', dropping comments/blank lines."""
-    for raw in sql.split(";"):
-        # strip whole-line SQL comments so a comment-only chunk isn't run
-        lines = [ln for ln in raw.splitlines() if not ln.strip().startswith("--")]
-        stmt = "\n".join(lines).strip()
+    # drop whole-line comments first: a ';' inside a comment would otherwise split a statement
+    body = "\n".join(ln for ln in sql.splitlines() if not ln.strip().startswith("--"))
+    for raw in body.split(";"):
+        stmt = raw.strip()
         if stmt:
             yield stmt
 
