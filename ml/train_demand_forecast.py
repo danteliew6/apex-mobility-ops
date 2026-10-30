@@ -22,6 +22,16 @@ if _REPO_ROOT not in sys.path:
 from apex_config import CATALOG, SCHEMA, S, EXPERIMENT_DIR, get_spark  # noqa: E402
 
 spark = get_spark()
+
+
+def _emit(payload):
+    """Return the run summary - via dbutils in a notebook, else just print it."""
+    try:
+        dbutils.notebook.exit(payload)  # noqa: F821 - provided in notebook runtime
+    except NameError:
+        print("RESULT", payload)
+
+
 MODEL_NAME = f"{CATALOG}.{SCHEMA}.apex_demand_forecast"
 mlflow.set_registry_uri("databricks-uc")
 mlflow.set_experiment(f"{EXPERIMENT_DIR}/demand_forecast_experiment")
