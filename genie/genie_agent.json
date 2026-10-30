@@ -13,9 +13,9 @@
   },
   "data_sources": {
     "tables": [
-      {"identifier": "demo_catalog.apex_ride_hailing.dim_zone"},
-      {"identifier": "demo_catalog.apex_ride_hailing.fact_trip"},
-      {"identifier": "demo_catalog.apex_ride_hailing.fact_vehicle_health"}
+      {"identifier": "dante_classic_stable_catalog.apex_ride_hailing.dim_zone"},
+      {"identifier": "dante_classic_stable_catalog.apex_ride_hailing.fact_trip"},
+      {"identifier": "dante_classic_stable_catalog.apex_ride_hailing.fact_vehicle_health"}
     ]
   },
   "instructions": {
@@ -27,7 +27,7 @@
           "SELECT city,\n",
           "       COUNT(*) FILTER (WHERE status = 'completed') AS completed_trips,\n",
           "       SUM(fare_idr) AS revenue_idr\n",
-          "FROM demo_catalog.apex_ride_hailing.fact_trip\n",
+          "FROM dante_classic_stable_catalog.apex_ride_hailing.fact_trip\n",
           "WHERE to_date(request_ts) >= date_sub(current_date(), 30)\n",
           "GROUP BY city ORDER BY revenue_idr DESC"
         ]
@@ -39,7 +39,7 @@
           "SELECT ROUND(100 * AVG(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END), 1) AS cancel_pct,\n",
           "       ROUND(100 * AVG(CASE WHEN status = 'no_driver' THEN 1 ELSE 0 END), 1) AS no_driver_pct,\n",
           "       ROUND(AVG(surge_multiplier), 2) AS avg_surge\n",
-          "FROM demo_catalog.apex_ride_hailing.fact_trip\n",
+          "FROM dante_classic_stable_catalog.apex_ride_hailing.fact_trip\n",
           "WHERE city = 'Jakarta' AND hour(request_ts) BETWEEN 17 AND 20\n",
           "  AND to_date(request_ts) >= date_sub(current_date(), 30)"
         ]
@@ -49,8 +49,8 @@
         "question": ["Top pickup zones by trips in Jakarta"],
         "sql": [
           "SELECT z.area_name, z.zone_type, COUNT(*) AS trips\n",
-          "FROM demo_catalog.apex_ride_hailing.fact_trip t\n",
-          "JOIN demo_catalog.apex_ride_hailing.dim_zone z ON t.pickup_zone_id = z.zone_id\n",
+          "FROM dante_classic_stable_catalog.apex_ride_hailing.fact_trip t\n",
+          "JOIN dante_classic_stable_catalog.apex_ride_hailing.dim_zone z ON t.pickup_zone_id = z.zone_id\n",
           "WHERE t.city = 'Jakarta'\n",
           "GROUP BY z.area_name, z.zone_type ORDER BY trips DESC LIMIT 10"
         ]
@@ -60,8 +60,8 @@
         "question": ["Vehicles needing service by fleet brand"],
         "sql": [
           "SELECT fleet_brand, COUNT(DISTINCT vehicle_id) AS vehicles_needing_service\n",
-          "FROM demo_catalog.apex_ride_hailing.fact_vehicle_health\n",
-          "WHERE reading_date = (SELECT MAX(reading_date) FROM demo_catalog.apex_ride_hailing.fact_vehicle_health)\n",
+          "FROM dante_classic_stable_catalog.apex_ride_hailing.fact_vehicle_health\n",
+          "WHERE reading_date = (SELECT MAX(reading_date) FROM dante_classic_stable_catalog.apex_ride_hailing.fact_vehicle_health)\n",
           "  AND needs_service_flag = 1\n",
           "GROUP BY fleet_brand ORDER BY vehicles_needing_service DESC"
         ]

@@ -9,7 +9,7 @@ SELECT
   ROUND(AVG(CASE WHEN status = 'cancelled' THEN 1.0 ELSE 0 END), 4) AS cancel_rate,
   ROUND(AVG(surge_multiplier), 2)                                 AS avg_surge,
   ROUND(AVG(wait_time_min), 1)                                    AS avg_wait_min
-FROM demo_catalog.apex_ride_hailing.trips_curated_gold
+FROM dante_classic_stable_catalog.apex_ride_hailing.trips_curated_gold
 WHERE request_ts >= date_sub(current_date(), 30)
 GROUP BY 1, 2
 ORDER BY 1, 2;

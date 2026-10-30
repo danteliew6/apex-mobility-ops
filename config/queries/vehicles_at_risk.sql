@@ -5,6 +5,6 @@ SELECT vehicle_id, fleet_brand,
        ROUND(battery_v, 2) AS battery_v,
        CAST(ROUND(km_since_service) AS BIGINT) AS km_since_service,
        needs_service_now
-FROM demo_catalog.apex_ride_hailing.gold_vehicle_predictions
+FROM dante_classic_stable_catalog.apex_ride_hailing.gold_vehicle_predictions
 WHERE service_risk_7d >= 0.5
 ORDER BY service_risk_7d DESC LIMIT 50;

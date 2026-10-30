@@ -5,5 +5,5 @@ SELECT
   ROUND(AVG(CASE WHEN status='no_driver' THEN 1.0 ELSE 0 END),4) AS no_driver_rate,
   ROUND(AVG(surge_multiplier), 2)                              AS avg_surge,
   ROUND(AVG(rating), 2)                                        AS avg_rating
-FROM demo_catalog.apex_ride_hailing.trips_curated_gold
+FROM dante_classic_stable_catalog.apex_ride_hailing.trips_curated_gold
 WHERE request_ts >= date_sub(current_date(), 30);

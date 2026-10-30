@@ -2,7 +2,7 @@
 WITH me AS (
   SELECT COALESCE(MAX(is_admin), false) AS is_admin,
          COALESCE(MAX(allowed_city), 'NONE') AS allowed_city
-  FROM demo_catalog.apex_ride_hailing.driver_access_allowlist
+  FROM dante_classic_stable_catalog.apex_ride_hailing.driver_access_allowlist
   WHERE email = :persona
 )
 SELECT
@@ -12,7 +12,7 @@ SELECT
   CASE WHEN me.is_admin THEN d.nik ELSE 'REDACTED-PII' END AS nik,
   d.home_city,
   d.fleet_brand
-FROM demo_catalog.apex_ride_hailing.dim_driver d
+FROM dante_classic_stable_catalog.apex_ride_hailing.dim_driver d
 CROSS JOIN me
 WHERE me.is_admin OR me.allowed_city = 'ALL' OR d.home_city = me.allowed_city
 ORDER BY d.driver_id
