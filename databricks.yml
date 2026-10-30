@@ -63,7 +63,7 @@ targets:
   # replicate flow in BUILD.md. Everything is parameterized off these values.
   replica:
     workspace:
-      host: https://REPLACE-ME.cloud.databricks.com
+      host: https://fevm-dante-classic-stable.cloud.databricks.com
     variables:
       catalog: main
       schema: apex_ride_hailing

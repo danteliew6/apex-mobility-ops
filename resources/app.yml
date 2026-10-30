@@ -3,9 +3,13 @@ resources:
     apex_ops:
       name: apex-ops
       description: "Apex ride-hailing operations — whitelabeled AppKit control center"
-      # Deploy from the bundle-synced workspace files (no external git dependency).
-      # The bundle root (one level up from resources/) is the app source directory.
-      source_code_path: ../
+      # This workspace only runs Databricks Apps from a git repository. The fevm-deploy branch
+      # carries the built artifacts and queries retargeted to this workspace's catalog.
+      git_repository:
+        url: https://github.com/danteliew6/apex-mobility-ops
+        provider: gitHub
+      git_source:
+        branch: fevm-deploy
       user_api_scopes:
         - dashboards.genie
         - serving.serving-endpoints
