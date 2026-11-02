@@ -10,8 +10,8 @@
         "       t.fare_idr AS fare_idr, t.surge_multiplier AS surge_multiplier, ",
         "       t.distance_km AS distance_km, t.wait_time_min AS wait_time_min, t.rating AS rating, ",
         "       z.area_name AS pickup_area, z.zone_type AS pickup_zone_type ",
-        "FROM fact_trip t ",
-        "LEFT JOIN dim_zone z ON t.pickup_zone_id = z.zone_id"
+        "FROM demo_catalog.apex_ride_hailing.fact_trip t ",
+        "LEFT JOIN demo_catalog.apex_ride_hailing.dim_zone z ON t.pickup_zone_id = z.zone_id"
       ],
       "columns": [
         {"displayName": "Total Trips", "description": "Count of trip requests", "expression": "COUNT(1)"},
@@ -30,7 +30,7 @@
       "queryLines": [
         "SELECT to_date(reading_date) AS reading_date, fleet_brand, vehicle_id, ",
         "       anomaly_score, needs_service_flag, brake_wear_pct, battery_v ",
-        "FROM fact_vehicle_health"
+        "FROM demo_catalog.apex_ride_hailing.fact_vehicle_health"
       ],
       "columns": [
         {"displayName": "Avg Anomaly", "description": "Average anomaly score (0-1)", "expression": "AVG(`anomaly_score`)"},
